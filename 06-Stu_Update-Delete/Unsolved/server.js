@@ -51,3 +51,17 @@ app.get('/books', (req, res) => {
 });
 
 // TODO: Add Delete route that uses a filter to delete a single document by id
+
+app.delete('/books/:id', (req, res) => {
+  // We use the ObjectId class to create a new ObjectId from the id parameter
+  const id = new ObjectId(req.params.id);
+
+  db.collection('bookCollection')
+    .deleteOne({ _id: id })
+    .then(results => res.json(results))
+    .catch(err => {
+      if (err) throw err;
+    });
+}
+);
+
