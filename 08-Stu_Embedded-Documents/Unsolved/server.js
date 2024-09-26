@@ -65,7 +65,8 @@ app.use(express.json());
 
 app.get('/authors/price-less-than-10', (req, res) => {
   db.collection('authorList')
-    .find({ data: { $lt: 10 } })
+    // Fixed: Used dot notation to access the nested 'price' field inside 'information'
+    .find({ 'information.price': { $lt: 10 } })
     .toArray()
     .then(results => res.send(results))
     .catch(err => {
@@ -75,7 +76,8 @@ app.get('/authors/price-less-than-10', (req, res) => {
 
 app.get('/authors/featured', (req, res) => {
   db.collection('authorList')
-    .find({ featured: true })
+    // Fixed: Used dot notation to access the 'featured' field inside the 'authors' array of embedded documents
+    .find({ 'authors.featured': true })
     .toArray()
     .then(results => res.send(results))
     .catch(err => {
